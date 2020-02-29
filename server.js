@@ -1,5 +1,12 @@
+/*
+
+https://scottdustman.carbonmade.com/
+
+*/
+
 const express = require('express');
 const app = express();
+const connectDB = require('./config/db')
 
 // Config Parser
 app.use(express.json({ extended: false }))
@@ -9,10 +16,8 @@ connectDB();
 
 // Config Routes
 app.use('/api/users', require('./routes/api/users'));
-
-app.get('/', (req, res) => {
-  res.send('Hello world!');
-});
+app.use('/api/portfolios', require('./routes/api/portfolios'));
+app.use('/api/resumes', require('./routes/api/resumes'));
 
 const PORT =  process.env.PORT || 8080;
 
