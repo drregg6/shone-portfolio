@@ -1,17 +1,16 @@
 const mongoose = require('mongoose');
-const Schema = mongoose.Schema();
+const Schema = mongoose.Schema;
 
 const portfolioItemSchema = new Schema({
   title: {
     type: String,
-    required: true,
-    unique: true
+    required: true
   },
   desc: {
     type: String
   },
   date: {
-    type: DateTime,
+    type: Date,
     default: Date.now()
   },
   company: {
