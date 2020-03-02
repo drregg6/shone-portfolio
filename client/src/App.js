@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React, { useEffect } from 'react';
 import './App.css';
 
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
@@ -23,8 +23,10 @@ function App() {
   return (
     <Router>
       <div className="App">
-        <Route exact path='/' component={Homepage} />
-        <Route exact path='/login' component={Login} />
+        <Switch>
+          <Route exact path='/' component={Homepage} />
+          <Route exact path='/login' component={Login} />
+        </Switch>
       </div>
     </Router>
   );

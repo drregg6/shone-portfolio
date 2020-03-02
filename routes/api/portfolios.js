@@ -22,42 +22,20 @@ router.get('/', async (req, res) => {
 // @access Public
 router.get('/:id', async (req, res) => {
   try {
-    let userPortfolio = await Portfolio.findOne({ user: req.params.id });
-    if (!userPortfolio) {
+    let portfolio = await Portfolio.findById(req.params.id);
+    if (!portfolio) {
       return res.json({ msg: 'Portfolio not found' });
     }
 
-    let portfolios = userPortfolio.portfolios;
-    res.json(portfolios);
+    res.json(portfolio);
   } catch (err) {
     console.error(err);
     res.status(500).send('Server error');
   }
 })
 
-// @route  GET /api/portfolios/portfolio/:id/
-// @desc   Get a specific portfolio
-// @access Private
-router.get('/portfolio/:id/', auth, async (req, res) => {
-  try {
-    // Get user portfolios
-    const userPortfolio = await Portfolio.findOne({ user: req.user.id });
-    if (!userPortfolio) {
-      return res.json({ msg: 'User portfolio is not found' });
-    }
-    const portfolio = userPortfolio.portfolios.filter(project => project.id === req.params.id)[0];
-    console.log(portfolio);
-    if (!portfolio) {
-      return res.json({ msg: 'Portfolio could not be found' });
-    }
-    res.json({ portfolio });
-  } catch (err) {
-    console.error(err);
-  }
-});
-
 // @route  POST /api/portfolios
-// @desc   Create or update portfolio
+// @desc   Create portfolio
 // @access Private
 router.post('/', [auth, [
   check('title', 'Title is required')
@@ -98,10 +76,28 @@ router.delete('/:id', auth, async (req, res) => {
   }
 });
 
-// @route  POST /api/portfolios/:id/portfolioItems
+// @route  GET /api/portfolios/:id/items/:item_id
+// @desc   Get a portfolio item
+// @access Public
+router.get('/:id/items/:item_id', async (req, res) => {
+  try {
+    let portfolios = await Portfolio.findById(req.params.id);
+    if (!portfolios) return res.status(400).json({ msg: 'Portfolio not found' });
+
+    let portfolioItem = portfolios.portfolioItems.find(item => item.id === req.params.item_id);
+    if (!portfolioItem) return res.status(400).json({ msg: 'Portfolio item not found' });
+
+    res.json(portfolioItem);
+  } catch (error) {
+    console.error(error);
+    res.status(500).send('Server error');
+  }
+});
+
+// @route  POST /api/portfolios/:id/items
 // @desc   Update portfolio with new port item
 // @access Private
-router.post('/:id/portfolioItems', auth, async (req, res) => {
+router.post('/:id/items', auth, async (req, res) => {
   const {
     id,
     title,
@@ -126,6 +122,7 @@ router.post('/:id/portfolioItems', auth, async (req, res) => {
 
     let portfolioItem = portfolio.portfolioItems.find(item => item._id.toString() === newPortfolioItem.id);
     if (portfolioItem) {
+      console.log('Lets update');
       portfolio = await Portfolio.findOneAndUpdate(
         { _id: req.params.id, 'portfolioItems._id': newPortfolioItem.id },
         { $set: { 'portfolioItems.$': newPortfolioItem } },
@@ -136,22 +133,23 @@ router.post('/:id/portfolioItems', auth, async (req, res) => {
 
     portfolio.portfolioItems.push(newPortfolioItem);
     await portfolio.save();
+    res.json(portfolio)
   } catch (error) {
     console.error(error);
     res.status(500).send('Server error');
   }
 });
 
-// @route  DELETE /api/portfolios/:portfolio_id/portfolioItems/:portfolioItem_id
+// @route  DELETE /api/portfolios/:portfolio_id/items/:item_id
 // @desc   Delete a portfolioItem
 // @access Private
-router.delete('/:portfolio_id/portfolioItems/:portfolioItem_id', auth, async (req, res) => {
+router.delete('/:portfolio_id/items/:item_id', auth, async (req, res) => {
   try {
     let portfolio = await Portfolio.findOne({ _id: req.params.portfolio_id });
     if (!portfolio) return res.status(400).json({ msg: 'Portfolio does not exist' });
 
-    const removeIndex = portfolio.portfolioItems.map(item => item.id).indexOf(req.params.portfolioItem_id);
-    portfolio.portfolioItems.splice(removeItem, 1);
+    const removeIndex = portfolio.portfolioItems.map(item => item.id).indexOf(req.params.item_id);
+    portfolio.portfolioItems.splice(removeIndex, 1);
 
     await portfolio.save();
     res.json(portfolio);

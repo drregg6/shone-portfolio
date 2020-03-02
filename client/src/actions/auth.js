@@ -43,7 +43,6 @@ export const login = (email, password) => async dispatch => {
       type: LOGIN_SUCCESS,
       payload: res.data
     });
-    console.log(res.data);
     dispatch(loadUser());
     dispatch(setAlert('Admin login. Welcome!', 'success'));
   } catch (error) {
