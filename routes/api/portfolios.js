@@ -1,7 +1,6 @@
 const { check, validationResult } = require('express-validator');
 const Portfolio = require('../../models/Portfolio');
 const auth = require('../../middleware/auth');
-const mongoose = require('mongoose');
 const express = require('express');
 const router = express.Router();
 
@@ -10,12 +9,10 @@ const router = express.Router();
 // @access Public
 router.get('/', async (req, res) => {
   try {
-    // This will be sent to populate a state arr
     let portfolios = await Portfolio.find();
-
     res.json(portfolios);
-  } catch (err) {
-    console.error(err);
+  } catch (error) {
+    console.error(error);
     res.status(500).send('Server error');
   }
 });
@@ -36,7 +33,7 @@ router.get('/:id', async (req, res) => {
     console.error(err);
     res.status(500).send('Server error');
   }
-});
+})
 
 // @route  GET /api/portfolios/portfolio/:id/
 // @desc   Get a specific portfolio
@@ -70,51 +67,17 @@ router.post('/', [auth, [
   const errors = validationResult(req);
   if (!errors.isEmpty()) res.status(422).json({ errors: errors.array() });
 
-  const {
-    title,
-    desc,
-    date,
-    image,
-    company
-  } = req.body;
-
-  const newPortfolio = {};
-  if (title) newPortfolio.title = title;
-  if (desc) newPortfolio.desc = desc;
-  if (date) newPortfolio.date = date;
-  if (image) newPortfolio.image = image;
-  if (company) newPortfolio.company = company;
-  if (_id) newPortfolio._id = mongoose.Types.ObjectId(_id);
-
-  // If the user's portfolio does not exist yet
+  const { title } = req.body;
+  const newPortfolio = { title };
   try {
-    let userPortfolio = await Portfolio.findOne({ user: req.user.id });
-    if (!userPortfolio) {
-      userPortfolio = new Portfolio({
-        user: req.user.id,
-        portfolios: []
-      });
-      userPortfolio.portfolios.unshift(newPortfolio);
-      await userPortfolio.save();
-      return res.json(userPortfolio.portfolios);
-    }
+    let portfolio = await Portfolio.findOne({ title: newPortfolio.title });
+    if (portfolio) return res.status(400).json({ msg: 'Portfolio already exists' });
 
-    // If the portfolio is being updated
-    let portfolio = userPortfolio.portfolios.filter(project => project._id.toString() === _id)[0];
-    if (portfolio) {
-      let index = userPortfolio.portfolios.map(project => project._id).indexOf(newPortfolio._id);
-      
-      userPortfolio.portfolios.splice(index, 1, newPortfolio);
-      await userPortfolio.save();
-      return res.json(userPortfolio.portfolios);
-    }
-
-    // Update userPortfolio portfolios arr with newPortfolio
-    userPortfolio.portfolios.unshift(newPortfolio);
-    await userPortfolio.save();
-    res.json(userPortfolio.portfolios)
-  } catch (err) {
-    console.error(err);
+    portfolio = new Portfolio(newPortfolio);
+    await portfolio.save();
+    res.json(portfolio);
+  } catch (error) {
+    console.error(error);
     res.status(500).send('Server error');
   }
 });
@@ -124,17 +87,76 @@ router.post('/', [auth, [
 // @access Private
 router.delete('/:id', auth, async (req, res) => {
   try {
-    let userPortfolio = await Portfolio.findOne({ user: req.user.id });
-    if (!userPortfolio) {
-      return res.status(400).json({ msg: 'User cannot be found' });
-    }
-    let index = userPortfolio.portfolios.map(project => mongoose.Types.ObjectId(project.id)).indexOf(req.params.id);
+    let portfolio = await Portfolio.findById(req.params.id);
+    if (!portfolio) return res.status(400).json({ msg: 'Portfolio not found' });
 
-    userPortfolio.portfolios.splice(index, 1);
-    await userPortfolio.save();
+    await portfolio.remove();
     res.json({ msg: 'Portfolio deleted' });
-  } catch (err) {
-    console.error(err);
+  } catch (error) {
+    console.error(error);
+    res.status(500).send('Server error');
+  }
+});
+
+// @route  POST /api/portfolios/:id/portfolioItems
+// @desc   Update portfolio with new port item
+// @access Private
+router.post('/:id/portfolioItems', auth, async (req, res) => {
+  const {
+    id,
+    title,
+    desc,
+    date,
+    company,
+    image
+  } = req.body;
+
+  const newPortfolioItem = {};
+  if (id) newPortfolioItem.id = id;
+  if (title) newPortfolioItem.title = title;
+  if (desc) newPortfolioItem.desc = desc;
+  if (date) newPortfolioItem.date = date;
+  if (company) newPortfolioItem.company = company;
+  if (image) newPortfolioItem.image = image;
+
+  try {
+    // Find the portfolio
+    const portfolio = await Portfolio.findOne({ _id: req.params.id });
+    if (!portfolio) return res.status(400).json({ msg: 'Portfolio not found' });
+
+    let portfolioItem = portfolio.portfolioItems.find(item => item._id.toString() === newPortfolioItem.id);
+    if (portfolioItem) {
+      portfolio = await Portfolio.findOneAndUpdate(
+        { _id: req.params.id, 'portfolioItems._id': newPortfolioItem.id },
+        { $set: { 'portfolioItems.$': newPortfolioItem } },
+        { new: true }
+      );
+      return res.json(portfolio)
+    };
+
+    portfolio.portfolioItems.push(newPortfolioItem);
+    await portfolio.save();
+  } catch (error) {
+    console.error(error);
+    res.status(500).send('Server error');
+  }
+});
+
+// @route  DELETE /api/portfolios/:portfolio_id/portfolioItems/:portfolioItem_id
+// @desc   Delete a portfolioItem
+// @access Private
+router.delete('/:portfolio_id/portfolioItems/:portfolioItem_id', auth, async (req, res) => {
+  try {
+    let portfolio = await Portfolio.findOne({ _id: req.params.portfolio_id });
+    if (!portfolio) return res.status(400).json({ msg: 'Portfolio does not exist' });
+
+    const removeIndex = portfolio.portfolioItems.map(item => item.id).indexOf(req.params.portfolioItem_id);
+    portfolio.portfolioItems.splice(removeItem, 1);
+
+    await portfolio.save();
+    res.json(portfolio);
+  } catch (error) {
+    console.error(error);
     res.status(500).send('Server error');
   }
 });
