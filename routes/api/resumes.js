@@ -27,35 +27,30 @@ router.get('/', async (req, res) => {
 router.post('/', auth, async (req, res) => {
   let {
     name,
+    title,
     email,
     phone,
+    location,
+    website,
     number,
     street,
     apartment,
     city,
     state,
     zip,
-    website,
-    technologies,
-    bio,
-    goals,
-    github,
-    instagram,
-    twitter,
-    linkedin
+    bio
   } = req.body;
 
   let newResume = {};
   newResume.user = req.user.id;
   if (name) newResume.name = name;
+  if (title) newResume.title = title;
   if (phone) newResume.phone = phone;
   if (email) newResume.email = email;
+  if (location) newResume.location = location;
   if (website) newResume.website = website;
   if (bio) newResume.bio = bio;
-  if (goals) newResume.goals = goals;
-  if (technologies) {
-    newResume.technologies = technologies.split(',').map(tech => tech.trim());
-  }
+
   newResume.address = {};
   if (number) newResume.address.number = number;
   if (street) newResume.address.street = street;
@@ -63,11 +58,6 @@ router.post('/', auth, async (req, res) => {
   if (city) newResume.address.city = city;
   if (state) newResume.address.state = state;
   if (zip) newResume.address.zip = zip;
-  newResume.social = {};
-  if (instagram) newResume.social.instagram = instagram;
-  if (github) newResume.social.github = github;
-  if (linkedin) newResume.social.linkedin = linkedin;
-  if (twitter) newResume.social.twitter = twitter;
 
   try {
     let resume = await Resume.findOne({ user: req.user.id });

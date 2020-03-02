@@ -21,6 +21,9 @@ const resumeSchema = new Schema({
   location: {
     type: String
   },
+  website: {
+    type: String
+  },
   address: {
     number: {
       type: String
@@ -40,9 +43,6 @@ const resumeSchema = new Schema({
     zip: {
       type: String
     }
-  },
-  website: {
-    type: String
   },
   bio: {
     type: String
