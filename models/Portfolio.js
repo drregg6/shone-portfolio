@@ -66,6 +66,10 @@ const portfolioSchema = new Schema({
     type: String,
     required: true
   },
+  splash: {
+    type: String,
+    default: 'http://www.placehold.it/400x175'
+  },
   portfolioItems: [
     {
       title: {

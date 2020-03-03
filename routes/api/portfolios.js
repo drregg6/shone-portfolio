@@ -18,7 +18,7 @@ router.get('/', async (req, res) => {
 });
 
 // @route  GET /api/portfolios/:id
-// @desc   Get user portfolios
+// @desc   Get a portfolio
 // @access Public
 router.get('/:id', async (req, res) => {
   try {
@@ -45,8 +45,8 @@ router.post('/', [auth, [
   const errors = validationResult(req);
   if (!errors.isEmpty()) res.status(422).json({ errors: errors.array() });
 
-  const { title } = req.body;
-  const newPortfolio = { title };
+  const { title, splash } = req.body;
+  const newPortfolio = { title, splash };
   try {
     let portfolio = await Portfolio.findOne({ title: newPortfolio.title });
     if (portfolio) return res.status(400).json({ msg: 'Portfolio already exists' });

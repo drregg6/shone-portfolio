@@ -1,45 +1,56 @@
 import {
-  USER_LOADED,
-  LOGIN_SUCCESS,
-  LOGIN_FAIL,
-  LOGOUT_USER,
-  AUTH_ERROR
+  GET_RESUME,
+  UPDATE_RESUME,
+  DELETE_EXPERIENCE,
+  DELETE_EMPLOYMENT,
+  DELETE_EDUCATION
 } from '../actions/types';
 
 const initialState = {
-  token: localStorage.getItem('token'),
-  user: null,
-  isAuthenticated: false,
+  resume: {},
   loading: true
 };
 
 export default function(state = initialState, action) {
   const { type, payload } = action;
-  switch (type) {
-    case USER_LOADED:
+  switch(type) {
+    case GET_RESUME:
       return {
         ...state,
-        user: payload,
-        isAuthenticated: true,
+        resume: payload,
+        loading: false
+      };
+    case UPDATE_RESUME:
+      return {
+        ...state,
+        resume: payload,
+        loading: false
+      };
+    case DELETE_EXPERIENCE:
+      return {
+        ...state,
+        resume: {
+          ...state.resume,
+          experience: state.resume.experience.filter(project => project._id !== payload)
+        },
         loading: false
       }
-    case LOGIN_SUCCESS:
-      localStorage.setItem('token', payload.token);
+    case DELETE_EMPLOYMENT:
       return {
         ...state,
-        ...payload,
-        isAuthenticated: true,
+        resume: {
+          ...state.resume,
+          employment: state.resume.employment.filter(job => job._id !== payload)
+        },
         loading: false
       }
-    case LOGIN_FAIL:
-    case LOGOUT_USER:
-    case AUTH_ERROR:
-      localStorage.removeItem('token');
+    case DELETE_EDUCATION:
       return {
         ...state,
-        token: null,
-        user: null,
-        isAuthenticated: false,
+        resume: {
+          ...state.resume,
+          education: state.resume.education.filter(school => school._id !== payload)
+        },
         loading: false
       }
     default:
