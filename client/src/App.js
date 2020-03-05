@@ -1,5 +1,7 @@
 /*
 
+https://scottdustman.carbonmade.com/
+
 TODOS:
 = portfolio-forms will need an AddPortfolioItem form
 
@@ -26,24 +28,21 @@ import EditResume from './components/resume-forms/EditResume';
 
 import setAuthToken from './utils/setAuthToken';
 import { loadUser } from './actions/auth';
-import { fetchPortfolios } from './actions/portfolio';
-import { connect } from 'react-redux';
 import store from './store';
 
-function App({ fetchPortfolios, portfolio }) {
+function App() {
   useEffect(() => {
     if (localStorage.token) {
       setAuthToken(localStorage.token);
     }
     store.dispatch(loadUser());
-    fetchPortfolios();
-  }, [portfolio]);
+  }, []);
 
   return (
     <Router>
       <div className="App container">
         <Row>
-          <Nav portfolio={portfolio} />
+          <Nav />
           <Switch>
             <Col md={8}>
               <Route exact path='/' component={Homepage} />
@@ -62,11 +61,4 @@ function App({ fetchPortfolios, portfolio }) {
   );
 };
 
-const mapStateToProps = state => ({
-  portfolio: state.portfolio
-});
-
-export default connect(
-  mapStateToProps,
-  { fetchPortfolios }
-)(App);
+export default App;

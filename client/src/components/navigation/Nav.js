@@ -1,13 +1,18 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { Col } from 'react-bootstrap';
 
 import { connect } from 'react-redux';
+import { fetchPortfolios } from '../../actions/portfolio';
 
 const Nav = ({
   portfolio: { portfolios, loading },
+  fetchPortfolios,
   isAuthenticated
 }) => {
+  useEffect(() => {
+    fetchPortfolios();
+  }, []);
 
   const renderMe = loading ? (
     <h1>Loading</h1>
@@ -28,14 +33,17 @@ const Nav = ({
 }
 
 Nav.propTypes = {
-  isAuthenticated: PropTypes.bool
+  isAuthenticated: PropTypes.bool,
+  fetchPortfolios: PropTypes.func.isRequired,
+  portfolio: PropTypes.object
 };
 
 const mapStateToProps = state => ({
-  isAuthenticated: state.auth.isAuthenticated
+  isAuthenticated: state.auth.isAuthenticated,
+  portfolio: state.portfolio
 })
 
 export default connect(
   mapStateToProps,
-  null
+  { fetchPortfolios }
 )(Nav);
