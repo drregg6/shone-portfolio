@@ -9,7 +9,7 @@ TODOS:
 
 import React, { useEffect } from 'react';
 import './App.css';
-import { Row, Col } from 'react-bootstrap';
+// import { Row, Col } from 'react-bootstrap';
 
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 
@@ -41,21 +41,19 @@ function App() {
   return (
     <Router>
       <div className="App container">
-        <Row>
-          <Nav />
-          <Switch>
-            <Col md={8}>
-              <Route exact path='/' component={Homepage} />
-              <Route exact path='/login' component={Login} />
-              <Route exact path='/contact' component={Contact} />
-              <Route exact path='/resume' component={Resume} />
-              <PrivateRoute exact path='/new-portfolio' component={CreatePortfolio} />
-              <PrivateRoute path='/portfolios/:id/edit' component={EditPortfolio} />
-              <PrivateRoute path='/new-resume' component={CreateResume} />
-              <PrivateRoute path='/edit-resume' component={EditResume} />
-            </Col>
-          </Switch>
-        </Row>
+        <Nav />
+        <Switch>
+          <div className="content-column">
+            <Route exact path='/' component={Homepage} />
+            <Route exact path='/login' component={Login} />
+            <Route exact path='/contact' component={Contact} />
+            <Route exact path='/resume' component={Resume} />
+            <PrivateRoute exact path='/new-portfolio' component={CreatePortfolio} />
+            <PrivateRoute path='/portfolios/:id/edit' component={EditPortfolio} />
+            <PrivateRoute path='/new-resume' component={CreateResume} />
+            <PrivateRoute path='/edit-resume' component={EditResume} />
+          </div>
+        </Switch>
       </div>
     </Router>
   );

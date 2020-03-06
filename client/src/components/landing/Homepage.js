@@ -16,7 +16,7 @@ const Homepage = ({
   ) : (
     portfolios.map(portfolio => {
       return (
-        <img src={portfolio.splash} alt="" />
+        <img src={portfolio.splash} alt={portfolio.title} />
       )
     })
   )

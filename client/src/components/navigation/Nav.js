@@ -1,14 +1,14 @@
 import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
-import { Col } from 'react-bootstrap';
+import { Link } from 'react-router-dom';
+// import { Col } from 'react-bootstrap';
 
 import { connect } from 'react-redux';
 import { fetchPortfolios } from '../../actions/portfolio';
 
 const Nav = ({
   portfolio: { portfolios, loading },
-  fetchPortfolios,
-  isAuthenticated
+  fetchPortfolios
 }) => {
   useEffect(() => {
     fetchPortfolios();
@@ -19,16 +19,43 @@ const Nav = ({
   ) : (
     portfolios.map(portfolio => {
       return (
-      <h1>{ portfolio.title }</h1>
+      <p>{ portfolio.title }</p>
       )
     })
   )
 
   return (
-    <Col md={4}>
-      <h1>Hello world!</h1>
-      { renderMe }
-    </Col>
+    <div className="custom-nav">
+      <div className="flex">
+        <div className="info">
+          <div className="flex">
+            <div className="nav-header">
+              Shone Regg |<br />
+              Senior Designer
+            </div>
+            <nav>
+              <ul>
+                <li>
+                  <Link to="/">Portfolio</Link>
+                </li>
+                <li>
+                  <Link to="/resume">Resume</Link>
+                </li>
+                <li>
+                  <Link to="/contact">Contact</Link>
+                </li>
+              </ul>
+            </nav>
+          </div>
+        </div>
+        <div className="footer center">
+          <p>
+            &copy; Shone Regg 2020<br />
+            <a href="http://www.daveregg.com" target="_blank">Dave Regg</a>
+          </p>
+        </div>
+      </div>
+    </div>
   )
 }
 
