@@ -102,8 +102,6 @@ router.post('/:id/items', auth, async (req, res) => {
     id,
     title,
     desc,
-    date,
-    company,
     image
   } = req.body;
 
@@ -111,8 +109,6 @@ router.post('/:id/items', auth, async (req, res) => {
   if (id) newPortfolioItem.id = id;
   if (title) newPortfolioItem.title = title;
   if (desc) newPortfolioItem.desc = desc;
-  if (date) newPortfolioItem.date = date;
-  if (company) newPortfolioItem.company = company;
   if (image) newPortfolioItem.image = image;
 
   try {

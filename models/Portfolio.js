@@ -32,30 +32,16 @@ Portfolio = [
   }
 ]
 
+
+*** UPDATE ***
+title - will be logos, pamphlets, mailers, etc
+images - will be the only content, no desc, no date
+arr with just text links?
+
 */
 
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
-
-// const portfolioItemSchema = new Schema({
-//   title: {
-//     type: String,
-//     required: true
-//   },
-//   desc: {
-//     type: String
-//   },
-//   date: {
-//     type: Date,
-//     default: Date.now()
-//   },
-//   company: {
-//     type: String
-//   },
-//   image: {
-//     type: String
-//   }
-// })
 
 const portfolioSchema = new Schema({
   user: {
@@ -76,13 +62,6 @@ const portfolioSchema = new Schema({
         type: String
       },
       desc: {
-        type: String
-      },
-      date: {
-        type: Date,
-        default: Date.now()
-      },
-      company: {
         type: String
       },
       image: {
