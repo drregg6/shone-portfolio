@@ -14,46 +14,49 @@ const Nav = ({
     fetchPortfolios();
   }, []);
 
-  const renderMe = loading ? (
+  const portfolioRender = loading ? (
     <h1>Loading</h1>
   ) : (
     portfolios.map(portfolio => {
       return (
-      <p>{ portfolio.title }</p>
+        <li>
+          <Link to={`/portfolios/${portfolio._id}`}>{ portfolio.title }</Link>
+        </li>
       )
     })
   )
 
   return (
-    <div className="custom-nav">
-      <div className="flex">
-        <div className="info">
-          <div className="flex">
-            <div className="nav-header">
-              Shone Regg |<br />
-              Senior Designer
-            </div>
-            <nav>
-              <ul>
-                <li>
-                  <Link to="/">Portfolio</Link>
-                </li>
-                <li>
-                  <Link to="/resume">Resume</Link>
-                </li>
-                <li>
-                  <Link to="/contact">Contact</Link>
-                </li>
-              </ul>
-            </nav>
-          </div>
+    <div className="nav flex">
+      <div className="info flex center">
+        <div className="nav-header">
+          <h1>Shone Regg</h1>
+          <h2>Senior Designer</h2>
         </div>
-        <div className="footer center">
-          <p>
-            &copy; Shone Regg 2020<br />
-            <a href="http://www.daveregg.com" target="_blank">Dave Regg</a>
-          </p>
+        <nav>
+          <ul>
+            <li>
+              <Link to="/">Portfolio</Link>
+            </li>
+            <li>
+              <Link to="/resume">Resume</Link>
+            </li>
+            <li>
+              <Link to="/contact">Contact</Link>
+            </li>
+          </ul>
+        </nav>
+        <div className="portfolio">
+          <ul>
+            { portfolioRender }
+          </ul>
         </div>
+      </div>
+      <div className="nav-footer center">
+        <p>
+          &copy; Shone Regg 2020<br />
+          <a href="http://www.daveregg.com" target="_blank">Dave Regg</a>
+        </p>
       </div>
     </div>
   )

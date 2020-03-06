@@ -18,6 +18,7 @@ import Nav from './components/navigation/Nav';
 import Homepage from './components/landing/Homepage';
 import Resume from './components/resume/Resume';
 import Contact from './components/contact/Contact';
+import PortfolioItems from './components/portfolioItems/PortfolioItems';
 import Login from './components/auth/Login';
 
 import PrivateRoute from './components/routing/PrivateRoute';
@@ -48,6 +49,7 @@ function App() {
             <Route exact path='/login' component={Login} />
             <Route exact path='/contact' component={Contact} />
             <Route exact path='/resume' component={Resume} />
+            <Route exact path='/portfolios/:id' component={PortfolioItems} />
             <PrivateRoute exact path='/new-portfolio' component={CreatePortfolio} />
             <PrivateRoute path='/portfolios/:id/edit' component={EditPortfolio} />
             <PrivateRoute path='/new-resume' component={CreateResume} />

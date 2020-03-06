@@ -1,13 +1,16 @@
 import {
   GET_PORTFOLIO,
   GET_PORTFOLIOS,
+  GET_PORTFOLIO_ITEM,
   UPDATE_PORTFOLIO,
   DELETE_PORTFOLIO,
-  CLEAR_PORTFOLIO
+  CLEAR_PORTFOLIO,
+  CLEAR_PORTFOLIO_ITEM
 } from '../actions/types';
 
 const initialState = {
   editPort: {},
+  portfolioItem: null,
   portfolios: [],
   loading: true
 }
@@ -33,6 +36,18 @@ export default function(state = initialState, action) {
         portfolios: [...payload],
         loading: false
       };
+    case GET_PORTFOLIO_ITEM:
+      return {
+        ...state,
+        portfolioItem: payload
+      }
+    case CLEAR_PORTFOLIO_ITEM: {
+      return {
+        ...state,
+        portfolioItem: null,
+        loading: false
+      }
+    }
     case DELETE_PORTFOLIO:
       return {
         ...state,

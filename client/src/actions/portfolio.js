@@ -2,7 +2,7 @@ import {
   GET_PORTFOLIO,
   GET_PORTFOLIOS,
   GET_PORTFOLIO_ITEM,
-  DELETE_PORTFOLIO_ITEM,
+  CLEAR_PORTFOLIO_ITEM,
   UPDATE_PORTFOLIO,
   DELETE_PORTFOLIO,
   CLEAR_PORTFOLIO
@@ -16,6 +16,20 @@ export const fetchPortfolios = () => async dispatch => {
     const res = await axios.get(`/api/portfolios/`);
     dispatch({
       type: GET_PORTFOLIOS,
+      payload: res.data
+    });
+  } catch (error) {
+    console.error(error);
+  }
+}
+
+// Get portfolio item
+export const fetchPortfolioItem = id => async dispatch => {
+  try {
+    dispatch({ type: CLEAR_PORTFOLIO_ITEM });
+    const res = await axios.get(`/api/portfolios/${id}`);
+    dispatch({
+      type: GET_PORTFOLIO_ITEM,
       payload: res.data
     });
   } catch (error) {

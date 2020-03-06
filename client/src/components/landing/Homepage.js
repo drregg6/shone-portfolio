@@ -1,5 +1,6 @@
 import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
+import { Link } from 'react-router-dom';
 
 import { connect } from 'react-redux';
 import { fetchPortfolios } from '../../actions/portfolio';
@@ -16,14 +17,17 @@ const Homepage = ({
   ) : (
     portfolios.map(portfolio => {
       return (
-        <img src={portfolio.splash} alt={portfolio.title} />
+        <div>
+          <Link to={`/portfolios/${portfolio._id}`}>
+            <img src={portfolio.splash} alt={portfolio.title} />
+          </Link>
+        </div>
       )
     })
   )
 
   return (
     <div>
-      <h1>Hello from Shone Regg!</h1>
       { renderMe }
     </div>
   )
