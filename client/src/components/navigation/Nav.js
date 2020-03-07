@@ -46,17 +46,15 @@ const Nav = ({
             </li>
           </ul>
         </nav>
-        <div className="portfolio">
+        <div className="nav-portfolio">
           <ul>
             { portfolioRender }
           </ul>
         </div>
       </div>
-      <div className="nav-footer center">
-        <p>
-          &copy; Shone Regg 2020<br />
-          <a href="http://www.daveregg.com" target="_blank">Dave Regg</a>
-        </p>
+      <div className="nav-footer flex">
+        &copy; Shone Regg 2020<br />
+        <a href="http://www.daveregg.com" target="_blank">Dave Regg</a>
       </div>
     </div>
   )

@@ -41,7 +41,7 @@ function App() {
 
   return (
     <Router>
-      <div className="App container">
+      <div className="App">
         <Nav />
         <Switch>
           <div className="content-column">

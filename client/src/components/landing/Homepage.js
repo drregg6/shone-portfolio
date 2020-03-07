@@ -17,8 +17,8 @@ const Homepage = ({
   ) : (
     portfolios.map(portfolio => {
       return (
-        <div>
-          <Link to={`/portfolios/${portfolio._id}`}>
+        <div className="portfolio-image center-content">
+          <Link className="portfolio-link" to={`/portfolios/${portfolio._id}`}>
             <img src={portfolio.splash} alt={portfolio.title} />
           </Link>
         </div>
@@ -27,7 +27,7 @@ const Homepage = ({
   )
 
   return (
-    <div>
+    <div className="portfolio">
       { renderMe }
     </div>
   )

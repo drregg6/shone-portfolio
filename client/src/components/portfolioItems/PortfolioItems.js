@@ -23,7 +23,7 @@ const PortfolioItems = ({
           loading || portfolioItem === null ? (<h1>Loading</h1>) : (
             portfolioItem.portfolioItems.map(item => {
               return (
-                <li>
+                <li className="portfolio-item">
                   <PortfolioItem item={item} />
                 </li>
               )
@@ -33,7 +33,7 @@ const PortfolioItems = ({
       </ul>
   );
   return (
-    <div>
+    <div className="portfolio-items center-content">
       { renderMe }
     </div>
   )
