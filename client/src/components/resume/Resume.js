@@ -21,7 +21,7 @@ const Resume = ({
       <div className="resume-header">
         <h1>{ resume.name }</h1>
         <h2>{ resume.title }</h2>
-        <div className="resume-contacts">
+        <div className="resume-contacts flex">
           <span className="resume-contact">
             { resume.location }
           </span>
@@ -33,13 +33,21 @@ const Resume = ({
           </span>
         </div>
       </div>
-      <div className="resume-experience">
-        <div className="column-left">
+      <div className="resume-experience grid">
+        <div className="resume-column-left italic">
           Experience
         </div>
-        <div className="column-right">
+        <div className="resume-column-right">
           { resume.employment.map(experience => {
-            return <Employment experience={experience} />
+            return <Employment
+              title={experience.title}
+              company={experience.company}
+              location={experience.location}
+              from={experience.from}
+              to={experience.to}
+              current={experience.current}
+              brands={experience.brands} 
+            />
           }) }
         </div>
       </div>

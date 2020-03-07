@@ -75,6 +75,15 @@ body {
 .flex {
   display: flex;
 }
+.grid {
+  display: grid;
+}
+.italic {
+  font-style: italic;
+}
+.bold {
+  font-weight: bold;
+}
 
 .App {
   margin: 2rem auto;
@@ -92,7 +101,6 @@ body {
 
 /* Nav */
 .nav {
-  background: yellow;
   position: fixed;
   top: 0;
   left: 0;
@@ -138,10 +146,10 @@ nav ul li {
 .nav .nav-footer {
   margin: 0;
   padding: 0;
+  padding-left: 3rem;
 
   flex-direction: column;
   justify-content: space-around;
-  align-items: center;
   text-align: left;
 }
 
@@ -192,4 +200,85 @@ nav ul li {
 .resume {
   height: 100%;
   width: 100%;
+  font-size: .9rem;
+
+  padding: 0 5rem;
+}
+
+.resume-header {
+  margin: 2.5rem 0;
+}
+
+.resume-header h1 {
+  font-size: 2.25rem;
+}
+.resume-header h2 {
+  margin: 1rem 0;
+  font-size: 1.5rem;
+}
+
+.resume-contacts {
+  justify-content: space-between;
+}
+
+.resume-experience {
+  grid-template-columns: 1fr 6fr;
+  grid-column-gap: 2rem;
+}
+.column-left {
+  text-align: right;
+  margin: 2rem 0;
+}
+.column-right {
+  text-align: left;
+  margin: 1rem;
+}
+
+
+/* Employment */
+.employment {
+  padding: 1.5rem 0;
+}
+.employment:first-child {
+  padding-top: 0;
+}
+.employment:last-child {
+  padding-bottom: 0;
+}
+.employment .employment-dates {
+  font-size: .78rem;
+}
+.employment h1 {
+  font-size: 1.2rem;
+}
+.employment h2 {
+  font-size: 1rem;
+  margin: .5rem 0;
+}
+.employment-brands {
+  margin-top: .75rem;
+
+}
+.employment-brands span {
+  display: inline-block;
+  /* padding: 2px 5px; */
+  /* border: 1px solid #999; */
+  /* border-radius: 5px; */
+  margin-right: .5rem;
+}
+.employment-brands span::after {
+  content: '';
+  display: inline-block;
+  width: .25rem;
+  height: .25rem;
+  border-radius: 50%;
+  background-color: #333;
+  margin-left: .5rem;
+  margin-bottom: .15rem;
+}
+.employment-brands span:last-child {
+  margin-right: 0;
+}
+.employment-brands span:last-child::after {
+  display: none;
 }
