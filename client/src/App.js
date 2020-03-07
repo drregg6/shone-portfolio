@@ -3,7 +3,13 @@
 https://scottdustman.carbonmade.com/
 
 TODOS:
-= portfolio-forms will need an AddPortfolioItem form
+= CLEAN UP - remove some of the error messages
+    - add keys to lists
+    - remove PropTypes from Components which dont use it
+= SCHEME
+    - create a color scheme to make it less boring
+= ADMIN
+    - create admin controls to create, update, and delete data
 
 */
 

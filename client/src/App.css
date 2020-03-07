@@ -194,6 +194,10 @@ nav ul li {
   margin-bottom: 0;
 }
 
+.portfolio-item-image {
+  cursor: pointer;
+}
+
 
 
 /* Resume */

@@ -24,7 +24,7 @@ const PortfolioItem = ({
   const [modalShow, setModalShow] = React.useState(false);
   return (
     <>
-      <img src={item.image} onClick={() => setModalShow(true)} />
+      <img className="portfolio-item-image" src={item.image} onClick={() => setModalShow(true)} />
 
       <MyVerticallyCenteredModal
         show={modalShow}
