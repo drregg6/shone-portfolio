@@ -261,9 +261,6 @@ nav ul li {
 }
 .employment-brands span {
   display: inline-block;
-  /* padding: 2px 5px; */
-  /* border: 1px solid #999; */
-  /* border-radius: 5px; */
   margin-right: .5rem;
 }
 .employment-brands span::after {
@@ -281,4 +278,30 @@ nav ul li {
 }
 .employment-brands span:last-child::after {
   display: none;
+}
+
+
+
+/* Contact */
+.contact {
+  height: 100%;
+  width: 100%;
+  font-size: .9rem;
+
+  padding: 7.5rem 5rem;
+}
+.contact h1 {
+  font-size: 2rem;
+}
+
+.contact-content {
+  margin: 2.5rem;
+  width: 500px;
+
+  justify-content: space-between;
+}
+.contact h2 {
+  font-size: .8rem;
+  margin-bottom: 1rem;
+  color: #888;
 }
